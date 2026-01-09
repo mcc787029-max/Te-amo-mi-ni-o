@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuestra historia 💖</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #ffd1dc, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* --------- ESTRELLITAS --------- */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 4s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: 0.2; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ---------- PANTALLA INICIAL ---------- */
+    .start-screen {
+      background: rgba(255,255,255,0.96);
+      border-radius: 28px;
+      padding: 45px 35px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+
+    .start-screen h1 { color: #ff4d79; margin-bottom: 10px; }
+    .start-screen p { color: #444; margin-bottom: 22px; }
+
+    .btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    button {
+      border: none;
+      padding: 13px 30px;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .yes {
+      background: linear-gradient(135deg, #ff4d79, #ff7aa2);
+      color: white;
+      box-shadow: 0 10px 22px rgba(255,77,121,0.45);
+    }
+
+    .no { background: #eee; color: #444; }
+
+    button:hover { transform: translateY(-3px); }
+
+    /* ---------- MUÑEQUITO TRISTE ---------- */
+    .sad {
+      display: none;
+      background: rgba(255,255,255,0.96);
+      border-radius: 28px;
+      padding: 45px 35px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+
+    .sad .character {
+      font-size: 90px;
+      margin-bottom: 10px;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* ---------- LIBRO ---------- */
+    .book-container { display: none; perspective: 2500px; }
+
+    .book {
+      width: 100%;
+      max-width: 760px;
+      height: 520px;
+      margin: auto;
+      position: relative;
+    }
+
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #fffafc, #ffffff);
+      border-radius: 26px;
+      padding: 38px 34px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+      transform-origin: left;
+      transition: transform 1.1s ease;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .page h2 { color:#ff4d79; margin-bottom: 12px; }
+    .page p { color:#333; line-height:1.75; font-size:1.08rem; }
+
+    .cover {
+      background: linear-gradient(135deg, #ff4d79, #ff9ab8);
+      color: white;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    }
+
+    .cover h1 { font-size: 2.2rem; margin-bottom: 10px; }
+    .cover p { color: #fff; }
+
+    .page1 { z-index: 5; }
+    .page2 { z-index: 4; }
+    .page3 { z-index: 3; }
+    .page4 { z-index: 2; }
+    .page5 { z-index: 1; }
+
+    .flipped { transform: rotateY(-180deg); }
+
+    .next-btn {
+      margin-top: 20px;
+      background: linear-gradient(135deg, #ff4d79, #ff7aa2);
+      color:white;
+      align-self: center;
+    }
+
+    .final-heart { font-size: 90px; margin: 10px 0; animation: beat 1.2s infinite; }
+    @keyframes beat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+    /* ---------- PROPUESTA ---------- */
+    .proposal {
+      display: none;
+      background: rgba(255,255,255,0.97);
+      border-radius: 30px;
+      padding: 50px 35px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    }
+
+    .proposal h1 { color:#ff4d79; }
+
+  </style>
+</head>
+<body>
+
+  <!-- estrellitas -->
+  <script>
+    for(let i=0;i<60;i++){
+      const s=document.createElement('div');
+      s.className='sparkle';
+      s.style.left=Math.random()*100+'%';
+      s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(Math.random()*4)+'s';
+      document.body.appendChild(s);
+    }
+  </script>
+
+  <div class="container">
+
+    <!-- PANTALLA INICIAL -->
+    <div class="start-screen" id="start">
+      <h1>Para Joaquín 💖</h1>
+      <p>Martina tiene algo muy importante que decirte…</p>
+      <p>¿Quieres abrir nuestra historia?</p>
+      <div class="btns">
+        <button class="yes" onclick="openLetter()">Sí 💕</button>
+        <button class="no" onclick="sayNo()">No 😢</button>
+      </div>
+    </div>
+
+    <!-- MUÑEQUITO TRISTE -->
+    <div class="sad" id="sad">
+      <div class="character">😔💙</div>
+      <h2>Me puse un poquito triste…</h2>
+      <p>pero igual quiero que sepas cuánto te amo 🥺</p>
+      <button class="yes" onclick="openLetter()">Está bien, quiero verla 💖</button>
+    </div>
+
+    <!-- LIBRO -->
+    <div class="book-container" id="book">
+      <div class="book">
+
+        <!-- PORTADA -->
+        <div class="page cover page1" id="p1">
+          <h1>Nuestra Historia</h1>
+          <p>Martina & Joaquín</p>
+          <p>Un amor que quiero para toda la vida…</p>
+          <button class="next-btn" onclick="nextPage(1)">Abrir libro 📖</button>
+        </div>
+
+        <!-- PÁGINA 1 -->
+        <div class="page page2" id="p2">
+          <h2>Desde que te conocí…</h2>
+          <p>
+            Amor, desde que llegaste a mi vida no solo te conocí a ti,
+            también me conocí a mí misma. Contigo aprendí a amarme,
+            a creer en mí y a sentir que soy suficiente.
+          </p>
+          <p>
+            Gracias por ayudarme a ver lo bonita que puede ser la vida
+            cuando se comparte con alguien tan especial como tú.
+          </p>
+          <button class="next-btn" onclick="nextPage(2)">Siguiente ➜</button>
+        </div>
+
+        <!-- PÁGINA 2 -->
+        <div class="page page3" id="p3">
+          <h2>Un recuerdo para siempre</h2>
+          <p>
+            Aún recuerdo cuando después de tanto me pediste pololeo
+            un <strong>13 de julio del 2025</strong>. Tal vez no fue algo lujoso,
+            pero para mí fue lo más lindo escuchar esas palabras salir de tu boca.
+          </p>
+          <p>
+            Estoy tan orgullosa de ti, de tu esfuerzo y de tu corazón tan bonito.
+            A tu lado me siento segura, amada y verdaderamente feliz.
+          </p>
+          <button class="next-btn" onclick="nextPage(3)">Siguiente ➜</button>
+        </div>
+
+        <!-- PÁGINA 3 -->
+        <div class="page page4" id="p4">
+          <h2>Nuestro futuro</h2>
+          <p>
+            Sueño con el día en que tengamos nuestra familia y que
+            nuestros dos hijos algún día nos miren y vean todo el amor
+            y la unión que existe entre nosotros.
+          </p>
+          <p>
+            Quiero pasar mi vida contigo, cumplir nuestros sueños y
+            seguir eligiéndote todos los días, porque mientras sea contigo,
+            todo vale la pena.
+          </p>
+          <button class="next-btn" onclick="showProposal()">Siguiente 💖</button>
+        </div>
+
+        <!-- PÁGINA FINAL (SE OCULTA) -->
+        <div class="page page5" id="p5">
+          <h2>Te amo…</h2>
+          <div class="final-heart">💖</div>
+          <p><strong>— Martina</strong></p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PROPUESTA FINAL -->
+    <div class="proposal" id="proposal">
+      <h1>Joaquín…</h1>
+      <p><strong>¿Quieres compartir el resto de tu vida conmigo?</strong></p>
+      <p>Porque yo estoy segura de que quiero compartir toda mi vida contigo, hoy y siempre, sin dudas y con todo mi corazón.</p>
+      <div class="btns">
+        <button class="yes" onclick="yesAnswer()">SÍ, POR SIEMPRE 😭💖</button>
+        <button class="no" onclick="noAnswer()">No 🥺</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openLetter(){
+      start.style.display='none'; sad.style.display='none'; book.style.display='block';
+    }
+    function sayNo(){ start.style.display='none'; sad.style.display='block'; }
+    function nextPage(n){ document.getElementById('p'+n).classList.add('flipped'); }
+
+    function showProposal(){
+      document.getElementById('p4').classList.add('flipped');
+      setTimeout(()=>{
+        document.getElementById('book').style.display='none';
+        document.getElementById('proposal').style.display='block';
+      },900);
+    }
+
+    function yesAnswer(){
+      document.getElementById('proposal').innerHTML = `
+        <h1>😭💖</h1>
+        <p><strong>Gracias por elegir nuestra historia.</strong></p>
+        <p>Prometo amarte, cuidarte y caminar contigo toda la vida.</p>
+        <div style="font-size:80px">💖✨💖</div>
+      `;
+    }
+
+    function noAnswer(){
+      document.getElementById('proposal').innerHTML = `
+        <h1>😔💔</h1>
+        <p>Igual te amo con todo mi corazón…</p>
+        <p>y siempre voy a agradecer haberte tenido en mi vida.</p>
+        <div style="font-size:70px">💙</div>
+      `;
+    }
+  </script>
+</body>
+</html>
